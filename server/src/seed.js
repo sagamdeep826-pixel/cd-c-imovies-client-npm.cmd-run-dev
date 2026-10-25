@@ -1,0 +1,400 @@
+import dotenv from 'dotenv';
+import { connectDB, closeDB } from './config/db.js';
+import User from './models/User.js';
+import Movie from './models/Movie.js';
+import Theatre from './models/Theatre.js';
+import Show from './models/Show.js';
+import Seat from './models/Seat.js';
+import Booking from './models/Booking.js';
+import Payment from './models/Payment.js';
+import Notification from './models/Notification.js';
+import { generateSeatsForShow } from './controllers/showController.js';
+
+dotenv.config();
+
+export const seedData = async (options = { autoExit: true, skipIfPopulated: false }) => {
+  try {
+    if (options.skipIfPopulated) {
+      const movieCount = await Movie.countDocuments();
+      if (movieCount > 0) {
+        console.log('[Seed] Database already contains data. Skipping initial seeding.');
+        return;
+      }
+    }
+
+    console.log('[Seed] Clearing existing collections...');
+    await User.deleteMany({});
+    await Movie.deleteMany({});
+    await Theatre.deleteMany({});
+    await Show.deleteMany({});
+    await Seat.deleteMany({});
+    await Booking.deleteMany({});
+    await Payment.deleteMany({});
+    await Notification.deleteMany({});
+
+    console.log('[Seed] Creating Users...');
+    const admin = await User.create({
+      name: 'Cinema Admin',
+      email: 'admin@imovies.com',
+      password: 'Admin@123',
+      role: 'admin',
+      phone: '+1 212-555-0199',
+      preferredCity: 'New York',
+    });
+
+    const user = await User.create({
+      name: 'Alex Miller',
+      email: 'user@imovies.com',
+      password: 'User@123',
+      role: 'user',
+      phone: '+1 212-555-0144',
+      preferredCity: 'New York',
+    });
+
+    console.log('[Seed] Creating Theatres...');
+    const theatres = await Theatre.create([
+      {
+        name: 'IMovies Grand Cinema & IMAX',
+        city: 'New York',
+        address: '1500 Broadway, Times Square',
+        state: 'NY',
+        zipCode: '10036',
+        screens: [
+          { name: 'Screen 1 (IMAX 3D Laser)', screenType: 'IMAX 3D', totalSeats: 80 },
+          { name: 'Screen 2 (Dolby Atmos VIP)', screenType: 'Dolby Atmos VIP', totalSeats: 80 },
+          { name: 'Screen 3 (4DX Dynamic)', screenType: '4DX', totalSeats: 80 },
+        ],
+        amenities: ['IMAX Laser', 'Dolby Atmos', 'Reclining Leather Seats', 'Gourmet Dine-in', 'Valet Parking'],
+        contactNumber: '+1 212-555-7890',
+      },
+      {
+        name: 'IMovies Starlight Multiplex',
+        city: 'New York',
+        address: '230 Vesey St, Battery Park City',
+        state: 'NY',
+        zipCode: '10281',
+        screens: [
+          { name: 'Screen 1 (Dolby Atmos VIP)', screenType: 'Dolby Atmos VIP', totalSeats: 80 },
+          { name: 'Screen 2 (Standard Digital)', screenType: 'Standard', totalSeats: 80 },
+        ],
+        amenities: ['Dolby Atmos', 'Cocktail Lounge', 'Wheelchair Accessible'],
+        contactNumber: '+1 212-555-3456',
+      },
+      {
+        name: 'IMovies Sunset Boulevard Pavilion',
+        city: 'Los Angeles',
+        address: '6801 Hollywood Blvd, Hollywood',
+        state: 'CA',
+        zipCode: '90028',
+        screens: [
+          { name: 'Screen 1 (IMAX 3D)', screenType: 'IMAX 3D', totalSeats: 80 },
+          { name: 'Screen 2 (Dolby Atmos VIP)', screenType: 'Dolby Atmos VIP', totalSeats: 80 },
+        ],
+        amenities: ['IMAX 70mm', 'Dolby Vision', 'Rooftop Lounge', 'Reserved Parking'],
+        contactNumber: '+1 323-555-8900',
+      },
+      {
+        name: 'IMovies Millennium Park Cinema',
+        city: 'Chicago',
+        address: '201 E Randolph St',
+        state: 'IL',
+        zipCode: '60602',
+        screens: [
+          { name: 'Screen 1 (IMAX 3D)', screenType: 'IMAX 3D', totalSeats: 80 },
+          { name: 'Screen 2 (Standard Digital)', screenType: 'Standard', totalSeats: 80 },
+        ],
+        amenities: ['Dolby Atmos', 'Food Court', 'Arcade Lounge'],
+        contactNumber: '+1 312-555-1212',
+      },
+    ]);
+
+    console.log('[Seed] Creating Blockbuster Movies...');
+    const movies = await Movie.create([
+      {
+        title: 'Dune: Part Two',
+        tagline: 'Long live the fighters.',
+        description:
+          'Paul Atreides unites with Chani and the Fremen while seeking revenge against the conspirators who destroyed his family. Facing a choice between the love of his life and the fate of the known universe, he endeavors to prevent a terrible future only he can foresee.',
+        genres: ['Sci-Fi', 'Adventure', 'Action'],
+        language: 'English',
+        duration: 166,
+        releaseDate: new Date('2024-03-01'),
+        rating: 9.1,
+        votesCount: 4800,
+        ageRating: 'PG-13',
+        director: 'Denis Villeneuve',
+        posterUrl: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=600&auto=format&fit=crop&q=80',
+        backdropUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1400&auto=format&fit=crop&q=80',
+        trailerUrl: 'https://www.youtube.com/watch?v=Way9Dexny3w',
+        status: 'now_showing',
+        featured: true,
+        cast: [
+          { name: 'Timothée Chalamet', character: 'Paul Atreides', photo: '' },
+          { name: 'Zendaya', character: 'Chani', photo: '' },
+          { name: 'Rebecca Ferguson', character: 'Lady Jessica', photo: '' },
+          { name: 'Javier Bardem', character: 'Stilgar', photo: '' },
+        ],
+      },
+      {
+        title: 'Oppenheimer',
+        tagline: 'The world forever changes.',
+        description:
+          'The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb during World War II, exploring the moral, ethical, and political turmoil that followed.',
+        genres: ['Biography', 'Drama', 'History'],
+        language: 'English',
+        duration: 180,
+        releaseDate: new Date('2023-07-21'),
+        rating: 8.9,
+        votesCount: 6200,
+        ageRating: 'R',
+        director: 'Christopher Nolan',
+        posterUrl: 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=600&auto=format&fit=crop&q=80',
+        backdropUrl: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=1400&auto=format&fit=crop&q=80',
+        trailerUrl: 'https://www.youtube.com/watch?v=uYPbbksJxIg',
+        status: 'now_showing',
+        featured: true,
+        cast: [
+          { name: 'Cillian Murphy', character: 'J. Robert Oppenheimer', photo: '' },
+          { name: 'Emily Blunt', character: 'Katherine Oppenheimer', photo: '' },
+          { name: 'Matt Damon', character: 'Leslie Groves', photo: '' },
+          { name: 'Robert Downey Jr.', character: 'Lewis Strauss', photo: '' },
+        ],
+      },
+      {
+        title: 'Interstellar: 10th Anniversary',
+        tagline: 'Mankind was born on Earth. It was never meant to die here.',
+        description:
+          'When Earth becomes uninhabitable in the future, a farmer and ex-NASA pilot, Joseph Cooper, is tasked to pilot a spacecraft, along with a team of researchers, to find a new planet for humans.',
+        genres: ['Sci-Fi', 'Adventure', 'Drama'],
+        language: 'English',
+        duration: 169,
+        releaseDate: new Date('2014-11-07'),
+        rating: 9.3,
+        votesCount: 9500,
+        ageRating: 'PG-13',
+        director: 'Christopher Nolan',
+        posterUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=80',
+        backdropUrl: 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1400&auto=format&fit=crop&q=80',
+        trailerUrl: 'https://www.youtube.com/watch?v=zSWdZVtXT7E',
+        status: 'now_showing',
+        featured: true,
+        cast: [
+          { name: 'Matthew McConaughey', character: 'Cooper', photo: '' },
+          { name: 'Anne Hathaway', character: 'Brand', photo: '' },
+          { name: 'Jessica Chastain', character: 'Murph', photo: '' },
+        ],
+      },
+      {
+        title: 'Spider-Man: Beyond the Spider-Verse',
+        tagline: 'Every universe has a story. Only one can survive.',
+        description:
+          'Miles Morales embarks across the Multiverse with Gwen Stacy and a new team of Spider-People to face off with a villain more powerful than anything they have ever encountered.',
+        genres: ['Animation', 'Action', 'Adventure'],
+        language: 'English',
+        duration: 140,
+        releaseDate: new Date('2025-06-15'),
+        rating: 9.0,
+        votesCount: 3100,
+        ageRating: 'PG',
+        director: 'Joaquim Dos Santos',
+        posterUrl: 'https://images.unsplash.com/photo-1635805737707-575885ab0820?w=600&auto=format&fit=crop&q=80',
+        backdropUrl: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1400&auto=format&fit=crop&q=80',
+        trailerUrl: 'https://www.youtube.com/watch?v=cqGjhVJWtEg',
+        status: 'now_showing',
+        featured: false,
+        cast: [
+          { name: 'Shameik Moore', character: 'Miles Morales', photo: '' },
+          { name: 'Hailee Steinfeld', character: 'Gwen Stacy', photo: '' },
+        ],
+      },
+      {
+        title: 'Gladiator II',
+        tagline: 'What we do in life echoes in eternity.',
+        description:
+          'Years after witnessing the death of Maximus at the hands of his uncle, Lucius must enter the Colosseum after the powerful emperors of Rome conquer his home.',
+        genres: ['Action', 'Drama', 'History'],
+        language: 'English',
+        duration: 148,
+        releaseDate: new Date('2024-11-22'),
+        rating: 8.4,
+        votesCount: 2200,
+        ageRating: 'R',
+        director: 'Ridley Scott',
+        posterUrl: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=600&auto=format&fit=crop&q=80',
+        backdropUrl: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=1400&auto=format&fit=crop&q=80',
+        trailerUrl: 'https://www.youtube.com/watch?v=4rgYUipGJNo',
+        status: 'now_showing',
+        featured: false,
+        cast: [
+          { name: 'Paul Mescal', character: 'Lucius', photo: '' },
+          { name: 'Pedro Pascal', character: 'Marcus Acacius', photo: '' },
+          { name: 'Denzel Washington', character: 'Macrinus', photo: '' },
+        ],
+      },
+      {
+        title: 'Avatar: Fire and Ash',
+        tagline: 'Discover the ash people.',
+        description:
+          'Jake Sully and Neytiri travel across Pandora encountering a fierce fire-wielding Na’vi clan, facing conflicts both within and outside the moon.',
+        genres: ['Action', 'Adventure', 'Fantasy', 'Sci-Fi'],
+        language: 'English',
+        duration: 175,
+        releaseDate: new Date('2025-12-19'),
+        rating: 8.8,
+        votesCount: 1400,
+        ageRating: 'PG-13',
+        director: 'James Cameron',
+        posterUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80',
+        backdropUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1400&auto=format&fit=crop&q=80',
+        trailerUrl: 'https://www.youtube.com/watch?v=d9MyW72ELq0',
+        status: 'coming_soon',
+        featured: true,
+        cast: [
+          { name: 'Sam Worthington', character: 'Jake Sully', photo: '' },
+          { name: 'Zoe Saldana', character: 'Neytiri', photo: '' },
+        ],
+      },
+    ]);
+
+    console.log('[Seed] Scheduling Shows & Generating Seats...');
+    const now = new Date();
+    const showHours = [11, 14, 17, 20, 22];
+    let createdShowsCount = 0;
+
+    for (let dayOffset = 0; dayOffset < 4; dayOffset++) {
+      const showDate = new Date(now);
+      showDate.setDate(now.getDate() + dayOffset);
+
+      for (const theatre of theatres.slice(0, 3)) {
+        for (const movie of movies.filter((m) => m.status === 'now_showing')) {
+          for (const hour of showHours.slice(0, 2)) {
+            const showTime = new Date(showDate);
+            showTime.setHours(hour, 30, 0, 0);
+
+            if (showTime < now) continue;
+
+            const durationMs = (movie.duration + 20) * 60 * 1000;
+            const endTime = new Date(showTime.getTime() + durationMs);
+
+            const show = await Show.create({
+              movie: movie._id,
+              theatre: theatre._id,
+              screenName: theatre.screens[0]?.name || 'Audi 1 (IMAX 3D)',
+              showTime,
+              endTime,
+              priceTier: { standard: 14, premium: 20, vip: 28 },
+              totalSeats: 80,
+              availableSeatsCount: 80,
+              status: 'scheduled',
+            });
+
+            await generateSeatsForShow(show._id, show.priceTier);
+            createdShowsCount++;
+          }
+        }
+      }
+    }
+
+    console.log(`[Seed] Created ${createdShowsCount} shows with seat grids.`);
+
+    // Create a sample confirmed booking for the demo user
+    const sampleShow = await Show.findOne({ status: 'scheduled' })
+      .populate('movie')
+      .populate('theatre');
+
+    if (sampleShow) {
+      const seatsToBook = await Seat.find({
+        show: sampleShow._id,
+        seatNumber: { $in: ['D5', 'D6'] },
+      });
+
+      if (seatsToBook.length === 2) {
+        const subtotal = seatsToBook.reduce((s, c) => s + c.price, 0);
+        const convenienceFee = 5.0;
+        const totalAmount = subtotal + convenienceFee;
+
+        const booking = await Booking.create({
+          bookingNumber: 'IMO-948102-1049',
+          user: user._id,
+          show: sampleShow._id,
+          movie: sampleShow.movie._id,
+          theatre: sampleShow.theatre._id,
+          seats: seatsToBook.map((s) => ({
+            seatId: s._id,
+            seatNumber: s.seatNumber,
+            row: s.row,
+            col: s.col,
+            category: s.category,
+            price: s.price,
+          })),
+          subtotal,
+          convenienceFee,
+          discount: 0,
+          totalAmount,
+          status: 'confirmed',
+          paymentStatus: 'paid',
+          paymentId: 'TXN-998234-DEMO',
+          qrCode: `IMO-TICKET:IMO-948102-1049:USER:${user._id}:SHOW:${sampleShow._id}`,
+        });
+
+        await Seat.updateMany(
+          { _id: { $in: seatsToBook.map((s) => s._id) } },
+          {
+            $set: {
+              status: 'booked',
+              bookedBy: user._id,
+              bookingId: booking._id,
+            },
+          }
+        );
+
+        await Show.findByIdAndUpdate(sampleShow._id, {
+          $inc: { availableSeatsCount: -2 },
+        });
+
+        await Payment.create({
+          booking: booking._id,
+          user: user._id,
+          paymentMethod: 'card',
+          transactionId: 'TXN-998234-DEMO',
+          amount: totalAmount,
+          status: 'success',
+          cardLastFour: '4242',
+        });
+
+        await Notification.create({
+          user: user._id,
+          title: 'Welcome to IMovies!',
+          message: `Your booking #${booking.bookingNumber} for ${sampleShow.movie.title} is confirmed. Enjoy your show!`,
+          type: 'booking_confirmation',
+          data: { bookingId: booking._id, showId: sampleShow._id },
+        });
+
+        console.log('[Seed] Created sample booking and notification.');
+      }
+    }
+
+    console.log('\n=============================================');
+    console.log('🍿 IMOVIES DATABASE SEEDED SUCCESSFULLY! 🍿');
+    console.log('Demo Credentials:');
+    console.log('  Admin: admin@imovies.com / Admin@123');
+    console.log('  User:  user@imovies.com  / User@123');
+    console.log('=============================================\n');
+
+    if (options.autoExit) {
+      await closeDB();
+      process.exit(0);
+    }
+  } catch (error) {
+    console.error('[Seed Error]:', error);
+    if (options.autoExit) {
+      process.exit(1);
+    }
+    throw error;
+  }
+};
+
+// Check if run directly via command line
+if (import.meta.url === `file:///${process.argv[1].replace(/\\/g, '/')}`) {
+  connectDB().then(() => seedData({ autoExit: true, skipIfPopulated: false }));
+}

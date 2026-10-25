@@ -1,0 +1,27 @@
+{
+  "name": "imovies",
+  "version": "1.0.0",
+  "description": "IMovies - Next-Gen Full-Stack Cinema Ticket Booking & Real-Time Management System",
+  "scripts": {
+    "server": "npm --prefix server start",
+    "server:dev": "npm --prefix server run dev",
+    "client": "npm --prefix client run dev",
+    "seed": "npm --prefix server run seed",
+    "test:api": "npm --prefix server run test",
+    "build": "npm --prefix client run build"
+  },
+  "keywords": [
+    "imovies",
+    "cinema",
+    "mern",
+    "ticket-booking",
+    "socket.io",
+    "real-time",
+    "mongodb",
+    "express",
+    "react",
+    "node"
+  ],
+  "author": "IMovies Team",
+  "license": "MIT"
+}
