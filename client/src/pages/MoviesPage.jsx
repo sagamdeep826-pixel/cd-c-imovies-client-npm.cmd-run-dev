@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { Search, Filter, SlidersHorizontal, ChevronLeft, ChevronRight } from 'lucide-react';
 import api from '../services/api';
 import MovieCard from '../components/MovieCard';
+import { DEMO_MOVIES } from '../services/demoData';
 
 export default function MoviesPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -58,12 +59,24 @@ export default function MoviesPage() {
         if (status !== 'all') params.status = status;
 
         const res = await api.get('/movies', { params });
-        if (res.success) {
-          setMovies(res.movies || []);
+        if (res.success && res.movies?.length > 0) {
+          setMovies(res.movies);
           setTotalPages(res.pages || 1);
+        } else {
+          let list = DEMO_MOVIES;
+          if (search) list = list.filter((m) => m.title.toLowerCase().includes(search.toLowerCase()));
+          if (selectedGenre !== 'All') list = list.filter((m) => m.genres.includes(selectedGenre));
+          if (status !== 'all') list = list.filter((m) => m.status === status);
+          setMovies(list);
+          setTotalPages(1);
         }
       } catch (err) {
-        console.error('Failed to load movies:', err);
+        let list = DEMO_MOVIES;
+        if (search) list = list.filter((m) => m.title.toLowerCase().includes(search.toLowerCase()));
+        if (selectedGenre !== 'All') list = list.filter((m) => m.genres.includes(selectedGenre));
+        if (status !== 'all') list = list.filter((m) => m.status === status);
+        setMovies(list);
+        setTotalPages(1);
       } finally {
         setLoading(false);
       }

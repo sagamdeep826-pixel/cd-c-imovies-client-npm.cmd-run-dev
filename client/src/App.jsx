@@ -6,6 +6,7 @@ import { SocketProvider } from './context/SocketContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import AuthModal from './components/AuthModal';
+import DatabaseStatusBanner from './components/DatabaseStatusBanner';
 
 import HomePage from './pages/HomePage';
 import MoviesPage from './pages/MoviesPage';
@@ -26,6 +27,7 @@ export default function App() {
         <CityProvider>
           <SocketProvider>
             <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#0a0c10' }}>
+              <DatabaseStatusBanner />
               <Navbar onOpenAuth={() => setShowAuthModal(true)} />
               
               <main style={{ flex: 1 }}>

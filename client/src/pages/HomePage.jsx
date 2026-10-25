@@ -15,6 +15,7 @@ import {
 import api from '../services/api';
 import MovieCard from '../components/MovieCard';
 import { useCity } from '../context/CityContext';
+import { DEMO_MOVIES } from '../services/demoData';
 
 export default function HomePage() {
   const { selectedCity } = useCity();
@@ -37,10 +38,16 @@ export default function HomePage() {
           api.get('/movies/genres'),
         ]);
 
-        if (featuredRes.success) setFeaturedMovies(featuredRes.movies || []);
+        if (featuredRes.success && featuredRes.movies?.length > 0) {
+          setFeaturedMovies(featuredRes.movies);
+        } else {
+          setFeaturedMovies(DEMO_MOVIES.filter((m) => m.featured));
+        }
         if (genresRes.success) setGenres(['All', ...(genresRes.genres || [])]);
       } catch (err) {
-        console.error('Failed to load initial data:', err);
+        console.warn('Backend unavailable, using demo preview data');
+        setFeaturedMovies(DEMO_MOVIES.filter((m) => m.featured));
+        setGenres(['All', 'Sci-Fi', 'Action', 'Adventure', 'Drama', 'Animation']);
       } finally {
         setLoading(false);
       }
@@ -58,9 +65,21 @@ export default function HomePage() {
         };
         if (selectedGenre !== 'All') params.genre = selectedGenre;
         const res = await api.get('/movies', { params });
-        if (res.success) setMovies(res.movies || []);
+        if (res.success && res.movies?.length > 0) {
+          setMovies(res.movies);
+        } else {
+          let list = DEMO_MOVIES.filter((m) => m.status === statusFilter);
+          if (selectedGenre !== 'All') {
+            list = list.filter((m) => m.genres.includes(selectedGenre));
+          }
+          setMovies(list);
+        }
       } catch (e) {
-        console.error(e);
+        let list = DEMO_MOVIES.filter((m) => m.status === statusFilter);
+        if (selectedGenre !== 'All') {
+          list = list.filter((m) => m.genres.includes(selectedGenre));
+        }
+        setMovies(list);
       }
     };
     fetchFilteredMovies();

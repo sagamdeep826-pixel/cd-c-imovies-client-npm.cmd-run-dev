@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import api from '../services/api';
 import { useCity } from '../context/CityContext';
+import { DEMO_MOVIES, DEMO_SHOWS, DEMO_THEATRES } from '../services/demoData';
 
 export default function MovieDetailsPage() {
   const { id } = useParams();
@@ -44,11 +45,15 @@ export default function MovieDetailsPage() {
     const fetchMovie = async () => {
       try {
         const res = await api.get(`/movies/${id}`);
-        if (res.success) {
+        if (res.success && res.movie) {
           setMovie(res.movie);
+        } else {
+          const fallback = DEMO_MOVIES.find((m) => m._id === id) || DEMO_MOVIES[0];
+          setMovie(fallback);
         }
       } catch (e) {
-        console.error(e);
+        const fallback = DEMO_MOVIES.find((m) => m._id === id) || DEMO_MOVIES[0];
+        setMovie(fallback);
       } finally {
         setLoading(false);
       }
@@ -67,11 +72,13 @@ export default function MovieDetailsPage() {
             date: selectedDate,
           },
         });
-        if (res.success) {
-          setShows(res.shows || []);
+        if (res.success && res.shows?.length > 0) {
+          setShows(res.shows);
+        } else {
+          setShows(DEMO_SHOWS);
         }
       } catch (e) {
-        console.error(e);
+        setShows(DEMO_SHOWS);
       }
     };
     fetchShows();

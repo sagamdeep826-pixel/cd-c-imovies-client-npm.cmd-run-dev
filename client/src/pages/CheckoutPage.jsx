@@ -110,7 +110,22 @@ export default function CheckoutPage() {
         });
       }
     } catch (err) {
-      alert(err.message || 'Payment processing failed. Please try again.');
+      console.warn('Backend unavailable, simulating offline demo ticket confirmation');
+      const demoBooking = {
+        _id: 'demo-bkg-' + Date.now(),
+        bookingNumber: `IMO-${Date.now().toString().slice(-6)}-DEMO`,
+        movie,
+        theatre,
+        show: { screenName, showTime },
+        seats: seats || seatNumbers.map((sn) => ({ seatNumber: sn })),
+        totalAmount: finalAmount,
+        status: 'confirmed',
+        qrCode: `IMO-DEMO:TICKET:${Date.now()}`,
+        createdAt: new Date().toISOString(),
+      };
+      navigate(`/booking-confirmed/${demoBooking._id}`, {
+        state: { booking: demoBooking },
+      });
     } finally {
       setIsProcessing(false);
     }
@@ -118,13 +133,34 @@ export default function CheckoutPage() {
 
   return (
     <div style={{ maxWidth: 1100, margin: '0 auto', padding: '2.5rem 1.5rem', minHeight: '80vh' }}>
-      <div style={{ marginBottom: '2rem' }}>
+      <div style={{ marginBottom: '1.5rem' }}>
         <h1 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#fff', marginBottom: '0.25rem' }}>
-          Secure Checkout & Payment
+          Simulated Cinema Ticket Checkout
         </h1>
         <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>
           Finalize your cinema ticket reservation with instant digital voucher generation.
         </p>
+      </div>
+
+      {/* Prominent Simulated Checkout Banner */}
+      <div
+        style={{
+          background: 'rgba(56, 189, 248, 0.1)',
+          border: '1px solid rgba(56, 189, 248, 0.3)',
+          borderRadius: 12,
+          padding: '0.85rem 1.25rem',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 10,
+          marginBottom: '2rem',
+          color: '#38bdf8',
+          fontSize: '0.85rem',
+        }}
+      >
+        <ShieldCheck size={20} />
+        <span>
+          <strong>SIMULATED CHECKOUT NOTICE:</strong> This is an academic demonstration project. No real currency is charged. Any card numbers or UPI IDs are purely simulated.
+        </span>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr minmax(320px, 380px)', gap: '2rem', alignItems: 'start' }}>

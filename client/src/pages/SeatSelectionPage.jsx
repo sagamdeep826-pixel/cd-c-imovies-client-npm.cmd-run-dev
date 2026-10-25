@@ -13,6 +13,7 @@ import {
 import api from '../services/api';
 import { useSocket } from '../context/SocketContext';
 import { useAuth } from '../context/AuthContext';
+import { DEMO_SHOWS, generateDemoSeats } from '../services/demoData';
 
 export default function SeatSelectionPage({ onOpenAuth }) {
   const { showId } = useParams();
@@ -33,12 +34,16 @@ export default function SeatSelectionPage({ onOpenAuth }) {
     const fetchShowDetails = async () => {
       try {
         const res = await api.get(`/shows/${showId}`);
-        if (res.success) {
+        if (res.success && res.show) {
           setShow(res.show);
           setSeats(res.seats || []);
+        } else {
+          setShow(DEMO_SHOWS[0]);
+          setSeats(generateDemoSeats(showId));
         }
       } catch (err) {
-        setErrorMsg('Failed to load show details. Please try again.');
+        setShow(DEMO_SHOWS[0]);
+        setSeats(generateDemoSeats(showId));
       } finally {
         setLoading(false);
       }

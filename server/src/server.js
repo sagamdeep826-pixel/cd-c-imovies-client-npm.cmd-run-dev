@@ -7,7 +7,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-import { connectDB } from './config/db.js';
+import { connectDB, dbStatus } from './config/db.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { apiLimiter } from './middleware/rateLimiter.js';
 import { setupSeatSocket } from './sockets/seatSocket.js';
@@ -60,6 +60,7 @@ app.get('/api/health', (req, res) => {
     status: 'ok',
     timestamp: new Date(),
     service: 'IMovies Cinema API',
+    database: dbStatus,
     version: '1.0.0',
   });
 });

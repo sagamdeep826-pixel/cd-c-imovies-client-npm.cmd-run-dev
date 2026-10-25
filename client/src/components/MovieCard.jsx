@@ -69,6 +69,26 @@ export default function MovieCard({ movie }) {
           <span>{movie.rating ? movie.rating.toFixed(1) : '8.5'}</span>
         </div>
 
+        {/* Demo Data Tag if Offline */}
+        {movie.isDemoData && (
+          <div
+            style={{
+              position: 'absolute',
+              top: 10,
+              right: movie.ageRating ? 48 : 10,
+              background: 'rgba(245, 158, 11, 0.9)',
+              color: '#000',
+              fontWeight: 800,
+              fontSize: '0.65rem',
+              padding: '0.2rem 0.4rem',
+              borderRadius: 4,
+              textTransform: 'uppercase',
+            }}
+          >
+            Demo
+          </div>
+        )}
+
         {/* Age Rating Badge */}
         {movie.ageRating && (
           <div
