@@ -51,7 +51,7 @@ export const seedData = async (options = { autoExit: true, skipIfPopulated: fals
       preferredCity: 'New York',
     });
 
-    console.log('[Seed] Creating Theatres...');
+    console.log('[Seed] Creating Theatres across multiple cities...');
     const theatres = await Theatre.create([
       {
         name: 'IMovies Grand Cinema & IMAX',
@@ -106,9 +106,35 @@ export const seedData = async (options = { autoExit: true, skipIfPopulated: fals
         amenities: ['Dolby Atmos', 'Food Court', 'Arcade Lounge'],
         contactNumber: '+1 312-555-1212',
       },
+      {
+        name: 'IMovies Golden Gate Cinema & Dine-In',
+        city: 'San Francisco',
+        address: '1000 Van Ness Ave',
+        state: 'CA',
+        zipCode: '94109',
+        screens: [
+          { name: 'Screen 1 (IMAX 3D Laser)', screenType: 'IMAX 3D', totalSeats: 80 },
+          { name: 'Screen 2 (Dolby Atmos VIP)', screenType: 'Dolby Atmos VIP', totalSeats: 80 },
+        ],
+        amenities: ['Dolby Atmos', 'Gourmet Dine-In', 'Reclining Heated Seats', 'Valet Parking'],
+        contactNumber: '+1 415-555-4321',
+      },
+      {
+        name: 'IMovies Ocean Drive Cinema',
+        city: 'Miami',
+        address: '1100 Lincoln Rd, South Beach',
+        state: 'FL',
+        zipCode: '33139',
+        screens: [
+          { name: 'Screen 1 (4DX Dynamic)', screenType: '4DX', totalSeats: 80 },
+          { name: 'Screen 2 (Dolby Atmos VIP)', screenType: 'Dolby Atmos VIP', totalSeats: 80 },
+        ],
+        amenities: ['4DX Dynamic Seats', 'Outdoor Rooftop Terrace', 'VIP Cocktail Bar'],
+        contactNumber: '+1 305-555-7766',
+      },
     ]);
 
-    console.log('[Seed] Creating Blockbuster Movies...');
+    console.log('[Seed] Creating Extensive Blockbuster Catalog (14 Movies)...');
     const movies = await Movie.create([
       {
         title: 'Dune: Part Two',
@@ -120,7 +146,7 @@ export const seedData = async (options = { autoExit: true, skipIfPopulated: fals
         duration: 166,
         releaseDate: new Date('2024-03-01'),
         rating: 9.1,
-        votesCount: 4800,
+        votesCount: 8400,
         ageRating: 'PG-13',
         director: 'Denis Villeneuve',
         posterUrl: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=600&auto=format&fit=crop&q=80',
@@ -129,23 +155,23 @@ export const seedData = async (options = { autoExit: true, skipIfPopulated: fals
         status: 'now_showing',
         featured: true,
         cast: [
-          { name: 'Timothée Chalamet', character: 'Paul Atreides', photo: '' },
-          { name: 'Zendaya', character: 'Chani', photo: '' },
-          { name: 'Rebecca Ferguson', character: 'Lady Jessica', photo: '' },
-          { name: 'Javier Bardem', character: 'Stilgar', photo: '' },
+          { name: 'Timothée Chalamet', character: 'Paul Atreides' },
+          { name: 'Zendaya', character: 'Chani' },
+          { name: 'Rebecca Ferguson', character: 'Lady Jessica' },
+          { name: 'Javier Bardem', character: 'Stilgar' },
         ],
       },
       {
         title: 'Oppenheimer',
         tagline: 'The world forever changes.',
         description:
-          'The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb during World War II, exploring the moral, ethical, and political turmoil that followed.',
+          'The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb during World War II, exploring moral, ethical, and political consequences.',
         genres: ['Biography', 'Drama', 'History'],
         language: 'English',
         duration: 180,
         releaseDate: new Date('2023-07-21'),
         rating: 8.9,
-        votesCount: 6200,
+        votesCount: 9200,
         ageRating: 'R',
         director: 'Christopher Nolan',
         posterUrl: 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=600&auto=format&fit=crop&q=80',
@@ -154,23 +180,23 @@ export const seedData = async (options = { autoExit: true, skipIfPopulated: fals
         status: 'now_showing',
         featured: true,
         cast: [
-          { name: 'Cillian Murphy', character: 'J. Robert Oppenheimer', photo: '' },
-          { name: 'Emily Blunt', character: 'Katherine Oppenheimer', photo: '' },
-          { name: 'Matt Damon', character: 'Leslie Groves', photo: '' },
-          { name: 'Robert Downey Jr.', character: 'Lewis Strauss', photo: '' },
+          { name: 'Cillian Murphy', character: 'J. Robert Oppenheimer' },
+          { name: 'Emily Blunt', character: 'Katherine Oppenheimer' },
+          { name: 'Matt Damon', character: 'Leslie Groves' },
+          { name: 'Robert Downey Jr.', character: 'Lewis Strauss' },
         ],
       },
       {
         title: 'Interstellar: 10th Anniversary',
         tagline: 'Mankind was born on Earth. It was never meant to die here.',
         description:
-          'When Earth becomes uninhabitable in the future, a farmer and ex-NASA pilot, Joseph Cooper, is tasked to pilot a spacecraft, along with a team of researchers, to find a new planet for humans.',
+          'When Earth becomes uninhabitable, a former NASA pilot leads an interstellar mission through a wormhole to secure mankind’s future survival among the stars.',
         genres: ['Sci-Fi', 'Adventure', 'Drama'],
         language: 'English',
         duration: 169,
         releaseDate: new Date('2014-11-07'),
         rating: 9.3,
-        votesCount: 9500,
+        votesCount: 12500,
         ageRating: 'PG-13',
         director: 'Christopher Nolan',
         posterUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=80',
@@ -179,22 +205,70 @@ export const seedData = async (options = { autoExit: true, skipIfPopulated: fals
         status: 'now_showing',
         featured: true,
         cast: [
-          { name: 'Matthew McConaughey', character: 'Cooper', photo: '' },
-          { name: 'Anne Hathaway', character: 'Brand', photo: '' },
-          { name: 'Jessica Chastain', character: 'Murph', photo: '' },
+          { name: 'Matthew McConaughey', character: 'Cooper' },
+          { name: 'Anne Hathaway', character: 'Brand' },
+          { name: 'Jessica Chastain', character: 'Murph' },
+        ],
+      },
+      {
+        title: 'Deadpool & Wolverine',
+        tagline: 'Come together.',
+        description:
+          'A listless Wade Wilson toils away in civilian life with his days as the morally flexible mercenary behind him. But when his homeworld faces an existential threat, Wade must team up with a very reluctant Wolverine.',
+        genres: ['Action', 'Comedy', 'Sci-Fi'],
+        language: 'English',
+        duration: 128,
+        releaseDate: new Date('2024-07-26'),
+        rating: 8.7,
+        votesCount: 7800,
+        ageRating: 'R',
+        director: 'Shawn Levy',
+        posterUrl: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=600&auto=format&fit=crop&q=80',
+        backdropUrl: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1400&auto=format&fit=crop&q=80',
+        trailerUrl: 'https://www.youtube.com/watch?v=73_1biulkYk',
+        status: 'now_showing',
+        featured: true,
+        cast: [
+          { name: 'Ryan Reynolds', character: 'Wade Wilson / Deadpool' },
+          { name: 'Hugh Jackman', character: 'Logan / Wolverine' },
+          { name: 'Emma Corrin', character: 'Cassandra Nova' },
+        ],
+      },
+      {
+        title: 'Inside Out 2',
+        tagline: 'Make room for new emotions.',
+        description:
+          'Teenager Riley navigates high school as headquarters undergoes a sudden demolition to make room for unexpected new emotions: Anxiety, Envy, Ennui, and Embarrassment.',
+        genres: ['Animation', 'Comedy', 'Adventure'],
+        language: 'English',
+        duration: 96,
+        releaseDate: new Date('2024-06-14'),
+        rating: 8.6,
+        votesCount: 6500,
+        ageRating: 'PG',
+        director: 'Kelsey Mann',
+        posterUrl: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=600&auto=format&fit=crop&q=80',
+        backdropUrl: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=1400&auto=format&fit=crop&q=80',
+        trailerUrl: 'https://www.youtube.com/watch?v=LEjhY15eCx0',
+        status: 'now_showing',
+        featured: false,
+        cast: [
+          { name: 'Amy Poehler', character: 'Joy' },
+          { name: 'Maya Hawke', character: 'Anxiety' },
+          { name: 'Phyllis Smith', character: 'Sadness' },
         ],
       },
       {
         title: 'Spider-Man: Beyond the Spider-Verse',
         tagline: 'Every universe has a story. Only one can survive.',
         description:
-          'Miles Morales embarks across the Multiverse with Gwen Stacy and a new team of Spider-People to face off with a villain more powerful than anything they have ever encountered.',
+          'Miles Morales embarks across the Multiverse with Gwen Stacy and a team of Spider-People to face off with a villain more powerful than anything they have ever encountered.',
         genres: ['Animation', 'Action', 'Adventure'],
         language: 'English',
         duration: 140,
         releaseDate: new Date('2025-06-15'),
         rating: 9.0,
-        votesCount: 3100,
+        votesCount: 4100,
         ageRating: 'PG',
         director: 'Joaquim Dos Santos',
         posterUrl: 'https://images.unsplash.com/photo-1635805737707-575885ab0820?w=600&auto=format&fit=crop&q=80',
@@ -203,21 +277,21 @@ export const seedData = async (options = { autoExit: true, skipIfPopulated: fals
         status: 'now_showing',
         featured: false,
         cast: [
-          { name: 'Shameik Moore', character: 'Miles Morales', photo: '' },
-          { name: 'Hailee Steinfeld', character: 'Gwen Stacy', photo: '' },
+          { name: 'Shameik Moore', character: 'Miles Morales' },
+          { name: 'Hailee Steinfeld', character: 'Gwen Stacy' },
         ],
       },
       {
         title: 'Gladiator II',
         tagline: 'What we do in life echoes in eternity.',
         description:
-          'Years after witnessing the death of Maximus at the hands of his uncle, Lucius must enter the Colosseum after the powerful emperors of Rome conquer his home.',
+          'Years after witnessing the death of Maximus at the hands of his uncle, Lucius must enter the Colosseum after Roman conquerors pillage his home.',
         genres: ['Action', 'Drama', 'History'],
         language: 'English',
         duration: 148,
         releaseDate: new Date('2024-11-22'),
         rating: 8.4,
-        votesCount: 2200,
+        votesCount: 3500,
         ageRating: 'R',
         director: 'Ridley Scott',
         posterUrl: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=600&auto=format&fit=crop&q=80',
@@ -226,9 +300,80 @@ export const seedData = async (options = { autoExit: true, skipIfPopulated: fals
         status: 'now_showing',
         featured: false,
         cast: [
-          { name: 'Paul Mescal', character: 'Lucius', photo: '' },
-          { name: 'Pedro Pascal', character: 'Marcus Acacius', photo: '' },
-          { name: 'Denzel Washington', character: 'Macrinus', photo: '' },
+          { name: 'Paul Mescal', character: 'Lucius' },
+          { name: 'Pedro Pascal', character: 'Marcus Acacius' },
+          { name: 'Denzel Washington', character: 'Macrinus' },
+        ],
+      },
+      {
+        title: 'A Quiet Place: Day One',
+        tagline: 'Hear how our world went quiet.',
+        description:
+          'Experience the day the world went quiet. A young woman named Sam must survive an invasion in New York City by bloodthirsty alien creatures with ultrasonic sound hearing.',
+        genres: ['Horror', 'Sci-Fi', 'Thriller'],
+        language: 'English',
+        duration: 99,
+        releaseDate: new Date('2024-06-28'),
+        rating: 8.3,
+        votesCount: 2900,
+        ageRating: 'PG-13',
+        director: 'Michael Sarnoski',
+        posterUrl: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=600&auto=format&fit=crop&q=80',
+        backdropUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1400&auto=format&fit=crop&q=80',
+        trailerUrl: 'https://www.youtube.com/watch?v=YPY7J-flzE8',
+        status: 'now_showing',
+        featured: false,
+        cast: [
+          { name: 'Lupita Nyong’o', character: 'Sam' },
+          { name: 'Joseph Quinn', character: 'Eric' },
+          { name: 'Djimon Hounsou', character: 'Henri' },
+        ],
+      },
+      {
+        title: 'Wicked: Part One',
+        tagline: 'Defy gravity.',
+        description:
+          'The untold story of the witches of Oz: Elphaba, a misunderstood young woman born with emerald-green skin, and Glinda, a privileged and ambitious blonde, form an unlikely friendship.',
+        genres: ['Musical', 'Fantasy', 'Romance'],
+        language: 'English',
+        duration: 160,
+        releaseDate: new Date('2024-11-27'),
+        rating: 8.8,
+        votesCount: 3800,
+        ageRating: 'PG',
+        director: 'Jon M. Chu',
+        posterUrl: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=600&auto=format&fit=crop&q=80',
+        backdropUrl: 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=1400&auto=format&fit=crop&q=80',
+        trailerUrl: 'https://www.youtube.com/watch?v=6COmYeLsz4c',
+        status: 'now_showing',
+        featured: false,
+        cast: [
+          { name: 'Cynthia Erivo', character: 'Elphaba' },
+          { name: 'Ariana Grande', character: 'Glinda' },
+          { name: 'Jeff Goldblum', character: 'The Wizard' },
+        ],
+      },
+      {
+        title: 'Alien: Romulus',
+        tagline: 'In space no one can hear you scream.',
+        description:
+          'While scavenging the deep ends of a derelict space station, a group of young space colonizers come face to face with the most terrifying life form in the universe.',
+        genres: ['Horror', 'Sci-Fi', 'Thriller'],
+        language: 'English',
+        duration: 119,
+        releaseDate: new Date('2024-08-16'),
+        rating: 8.5,
+        votesCount: 4200,
+        ageRating: 'R',
+        director: 'Fede Álvarez',
+        posterUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=80',
+        backdropUrl: 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1400&auto=format&fit=crop&q=80',
+        trailerUrl: 'https://www.youtube.com/watch?v=x0XDEhP4MQs',
+        status: 'now_showing',
+        featured: false,
+        cast: [
+          { name: 'Cailee Spaeny', character: 'Rain Carradine' },
+          { name: 'David Jonsson', character: 'Andy' },
         ],
       },
       {
@@ -241,7 +386,7 @@ export const seedData = async (options = { autoExit: true, skipIfPopulated: fals
         duration: 175,
         releaseDate: new Date('2025-12-19'),
         rating: 8.8,
-        votesCount: 1400,
+        votesCount: 1900,
         ageRating: 'PG-13',
         director: 'James Cameron',
         posterUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80',
@@ -250,24 +395,96 @@ export const seedData = async (options = { autoExit: true, skipIfPopulated: fals
         status: 'coming_soon',
         featured: true,
         cast: [
-          { name: 'Sam Worthington', character: 'Jake Sully', photo: '' },
-          { name: 'Zoe Saldana', character: 'Neytiri', photo: '' },
+          { name: 'Sam Worthington', character: 'Jake Sully' },
+          { name: 'Zoe Saldana', character: 'Neytiri' },
+        ],
+      },
+      {
+        title: 'The Batman: Part II',
+        tagline: 'The shadows deepen over Gotham.',
+        description:
+          'Bruce Wayne navigates the deep underworld of Gotham City while facing a new syndicate of criminals challenging his crusade as the Dark Knight.',
+        genres: ['Action', 'Crime', 'Drama'],
+        language: 'English',
+        duration: 165,
+        releaseDate: new Date('2026-10-02'),
+        rating: 8.9,
+        votesCount: 1600,
+        ageRating: 'PG-13',
+        director: 'Matt Reeves',
+        posterUrl: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=600&auto=format&fit=crop&q=80',
+        backdropUrl: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=1400&auto=format&fit=crop&q=80',
+        trailerUrl: 'https://www.youtube.com/watch?v=mqqft2x_Aa4',
+        status: 'coming_soon',
+        featured: false,
+        cast: [
+          { name: 'Robert Pattinson', character: 'Bruce Wayne / Batman' },
+          { name: 'Andy Serkis', character: 'Alfred Pennyworth' },
+        ],
+      },
+      {
+        title: 'Moana 2',
+        tagline: 'The ocean calls her back.',
+        description:
+          'Moana journeys to the far seas of Oceania and into dangerous, long-lost waters for an adventure unlike anything she has ever faced.',
+        genres: ['Animation', 'Adventure', 'Family', 'Musical'],
+        language: 'English',
+        duration: 100,
+        releaseDate: new Date('2024-11-27'),
+        rating: 8.5,
+        votesCount: 2200,
+        ageRating: 'PG',
+        director: 'David G. Derrick Jr.',
+        posterUrl: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=600&auto=format&fit=crop&q=80',
+        backdropUrl: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=1400&auto=format&fit=crop&q=80',
+        trailerUrl: 'https://www.youtube.com/watch?v=hDZ7y8RP5HE',
+        status: 'now_showing',
+        featured: false,
+        cast: [
+          { name: 'Auliʻi Cravalho', character: 'Moana' },
+          { name: 'Dwayne Johnson', character: 'Maui' },
+        ],
+      },
+      {
+        title: 'Joker: Folie à Deux',
+        tagline: 'The world is a stage.',
+        description:
+          'Arthur Fleck is institutionalized at Arkham awaiting trial for his crimes as Joker. While struggling with his dual identity, Arthur stumbles upon true love and musical delirium.',
+        genres: ['Crime', 'Drama', 'Musical'],
+        language: 'English',
+        duration: 138,
+        releaseDate: new Date('2024-10-04'),
+        rating: 8.1,
+        votesCount: 3100,
+        ageRating: 'R',
+        director: 'Todd Phillips',
+        posterUrl: 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=600&auto=format&fit=crop&q=80',
+        backdropUrl: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1400&auto=format&fit=crop&q=80',
+        trailerUrl: 'https://www.youtube.com/watch?v=_OKAwz2NiOI',
+        status: 'now_showing',
+        featured: false,
+        cast: [
+          { name: 'Joaquin Phoenix', character: 'Arthur Fleck / Joker' },
+          { name: 'Lady Gaga', character: 'Harleen Quinzel / Lee' },
         ],
       },
     ]);
 
-    console.log('[Seed] Scheduling Shows & Generating Seats...');
+    console.log('[Seed] Scheduling Shows Across All Theatres & Dates...');
     const now = new Date();
-    const showHours = [11, 14, 17, 20, 22];
+    const showHours = [10, 13, 16, 19, 21]; // 10:30 AM, 1:30 PM, 4:30 PM, 7:30 PM, 9:30 PM
     let createdShowsCount = 0;
 
-    for (let dayOffset = 0; dayOffset < 4; dayOffset++) {
+    const nowShowingMovies = movies.filter((m) => m.status === 'now_showing');
+
+    for (let dayOffset = 0; dayOffset < 5; dayOffset++) {
       const showDate = new Date(now);
       showDate.setDate(now.getDate() + dayOffset);
 
-      for (const theatre of theatres.slice(0, 3)) {
-        for (const movie of movies.filter((m) => m.status === 'now_showing')) {
-          for (const hour of showHours.slice(0, 2)) {
+      for (const theatre of theatres) {
+        // Schedule shows for top 4 now_showing movies per theatre per day
+        for (const movie of nowShowingMovies.slice(0, 5)) {
+          for (const hour of showHours.slice(0, 3)) {
             const showTime = new Date(showDate);
             showTime.setHours(hour, 30, 0, 0);
 
@@ -279,7 +496,7 @@ export const seedData = async (options = { autoExit: true, skipIfPopulated: fals
             const show = await Show.create({
               movie: movie._id,
               theatre: theatre._id,
-              screenName: theatre.screens[0]?.name || 'Audi 1 (IMAX 3D)',
+              screenName: theatre.screens[0]?.name || 'Audi 1 (IMAX 3D Laser)',
               showTime,
               endTime,
               priceTier: { standard: 14, premium: 20, vip: 28 },
@@ -295,7 +512,7 @@ export const seedData = async (options = { autoExit: true, skipIfPopulated: fals
       }
     }
 
-    console.log(`[Seed] Created ${createdShowsCount} shows with seat grids.`);
+    console.log(`[Seed] Created ${createdShowsCount} shows with seat matrices.`);
 
     // Create a sample confirmed booking for the demo user
     const sampleShow = await Show.findOne({ status: 'scheduled' })
@@ -374,12 +591,14 @@ export const seedData = async (options = { autoExit: true, skipIfPopulated: fals
       }
     }
 
-    console.log('\n=============================================');
-    console.log('🍿 IMOVIES DATABASE SEEDED SUCCESSFULLY! 🍿');
-    console.log('Demo Credentials:');
-    console.log('  Admin: admin@imovies.com / Admin@123');
-    console.log('  User:  user@imovies.com  / User@123');
-    console.log('=============================================\n');
+    console.log('\n======================================================');
+    console.log('🍿 IMOVIES EXPANDED DATABASE SEEDED SUCCESSFULLY! 🍿');
+    console.log(`  🎬 Total Movies:    ${movies.length}`);
+    console.log(`  🏛️  Total Theatres:  ${theatres.length}`);
+    console.log(`  🎟️  Total Shows:     ${createdShowsCount}`);
+    console.log('  👤 Demo Admin:      admin@imovies.com / Admin@123');
+    console.log('  👤 Demo User:       user@imovies.com  / User@123');
+    console.log('======================================================\n');
 
     if (options.autoExit) {
       await closeDB();
@@ -394,7 +613,6 @@ export const seedData = async (options = { autoExit: true, skipIfPopulated: fals
   }
 };
 
-// Check if run directly via command line
 if (import.meta.url === `file:///${process.argv[1].replace(/\\/g, '/')}`) {
   connectDB().then(() => seedData({ autoExit: true, skipIfPopulated: false }));
 }
