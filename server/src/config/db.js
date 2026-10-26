@@ -26,8 +26,18 @@ export const connectDB = async () => {
     console.log('[Database] Initializing fallback in-memory MongoDB server for zero-friction setup...');
 
     try {
+      // Direct mongodb-memory-server cache to workspace folder to avoid permission errors
+      const pathModule = await import('path');
+      const osModule = await import('os');
+      const cacheDir = pathModule.resolve(process.cwd(), '.mongo-binaries');
+      process.env.MONGOMS_DOWNLOAD_DIR = cacheDir;
+
       const { MongoMemoryServer } = await import('mongodb-memory-server');
-      memoryServer = await MongoMemoryServer.create();
+      memoryServer = await MongoMemoryServer.create({
+        instance: {
+          dbName: 'imovies'
+        }
+      });
       const memoryUri = memoryServer.getUri();
       await mongoose.connect(memoryUri);
       dbStatus.connected = true;
@@ -36,8 +46,12 @@ export const connectDB = async () => {
       dbStatus.host = memoryUri;
       console.log(`[Database] In-memory MongoDB running and connected at ${memoryUri} (Session In-Memory Mode)`);
     } catch (memError) {
-      console.error('[Database] Fatal: could not initialize database connection.', memError.message);
-      process.exit(1);
+      dbStatus.connected = false;
+      dbStatus.isMemory = false;
+      dbStatus.isPersistent = false;
+      dbStatus.error = memError.message;
+      console.warn('[Database] In-memory MongoDB could not be started:', memError.message);
+      console.warn('[Database] Continuing in API Demo mode without MongoDB.');
     }
   }
 

@@ -218,7 +218,7 @@ export default function BookingConfirmationPage() {
 
             <div style={{ fontSize: '0.78rem', color: '#64748b' }}>Total Paid</div>
             <div style={{ fontSize: '1.3rem', fontWeight: 800, color: '#10b981' }}>
-              ${booking.totalAmount?.toFixed(2)}
+              ₹{booking.totalAmount?.toFixed(2)}
             </div>
           </div>
 

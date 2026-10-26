@@ -76,7 +76,7 @@ export default function TheatresPage() {
           <Film size={40} color="#64748b" style={{ margin: '0 auto 1rem' }} />
           <h3 style={{ color: '#fff', fontSize: '1.2rem', marginBottom: '0.5rem' }}>No Theatres in {selectedCity}</h3>
           <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>
-            Try selecting New York, Los Angeles, or Chicago above.
+            Try selecting Bhopal or Indore above.
           </p>
         </div>
       ) : (

@@ -39,7 +39,7 @@ export default function UserDashboardPage() {
   const [profileData, setProfileData] = useState({
     name: user?.name || '',
     phone: user?.phone || '',
-    preferredCity: user?.preferredCity || 'New York',
+    preferredCity: user?.preferredCity || 'Bhopal',
   });
   const [profileMsg, setProfileMsg] = useState('');
 
@@ -79,7 +79,7 @@ export default function UserDashboardPage() {
         reason: cancelReason,
       });
       if (res.success) {
-        alert(`Booking #${cancellingBooking.bookingNumber} successfully cancelled. Refund of $${res.refundAmount} has been processed.`);
+        alert(`Booking #${cancellingBooking.bookingNumber} successfully cancelled. Refund of ₹${res.refundAmount} has been processed.`);
         setCancellingBooking(null);
         loadBookings();
       }
@@ -297,7 +297,7 @@ export default function UserDashboardPage() {
                     {/* Actions & Price */}
                     <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-end' }}>
                       <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#fff' }}>
-                        ${b.totalAmount?.toFixed(2)}
+                        ₹{b.totalAmount?.toFixed(2)}
                       </div>
 
                       <div style={{ display: 'flex', gap: 8 }}>
@@ -579,7 +579,7 @@ export default function UserDashboardPage() {
               </div>
               <div>
                 <span style={{ color: '#64748b', display: 'block' }}>TOTAL AMOUNT</span>
-                <strong style={{ color: '#10b981' }}>${viewingBooking.totalAmount?.toFixed(2)}</strong>
+                <strong style={{ color: '#10b981' }}>₹{viewingBooking.totalAmount?.toFixed(2)}</strong>
               </div>
               <div>
                 <span style={{ color: '#64748b', display: 'block' }}>SEATS</span>

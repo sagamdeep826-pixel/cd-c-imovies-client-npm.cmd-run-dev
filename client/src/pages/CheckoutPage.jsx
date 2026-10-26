@@ -79,12 +79,12 @@ export default function CheckoutPage() {
       const disc = Math.round(subtotal * 0.5);
       setDiscount(disc);
       setAppliedCoupon('FIRST50 (50% Off Applied)');
-    } else if (code === 'FLAT10') {
-      const disc = Math.min(10, subtotal);
+    } else if (code === 'FLAT100' || code === 'FLAT10') {
+      const disc = Math.min(100, subtotal);
       setDiscount(disc);
-      setAppliedCoupon('FLAT10 ($10 Flat Discount Applied)');
+      setAppliedCoupon('FLAT100 (₹100 Flat Discount Applied)');
     } else {
-      setCouponError('Invalid coupon code. Try IMOVIES20 or FIRST50.');
+      setCouponError('Invalid coupon code. Try FIRST50, IMOVIES20 or FLAT100.');
     }
   };
 
@@ -363,7 +363,7 @@ export default function CheckoutPage() {
                 IMovies Cinema Wallet
               </h3>
               <p style={{ color: '#94a3b8', fontSize: '0.85rem', marginBottom: '1rem' }}>
-                Available Balance: <strong style={{ color: '#10b981' }}>$150.00 USD</strong>
+                Available Balance: <strong style={{ color: '#10b981' }}>₹1,500.00</strong>
               </p>
               <span style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#10b981', padding: '0.3rem 0.8rem', borderRadius: 20, fontSize: '0.78rem', fontWeight: 600 }}>
                 Instant 1-Click Pay
@@ -433,7 +433,7 @@ export default function CheckoutPage() {
             {/* Coupon Code Apply */}
             <div style={{ marginBottom: '1.25rem' }}>
               <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginBottom: 6, fontWeight: 600 }}>
-                PROMO CODE (Try FIRST50 or IMOVIES20)
+                PROMO CODE (Try FIRST50, IMOVIES20 or FLAT100)
               </div>
               <div style={{ display: 'flex', gap: 6 }}>
                 <input
@@ -470,17 +470,17 @@ export default function CheckoutPage() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '1rem', fontSize: '0.88rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', color: '#94a3b8' }}>
                 <span>Subtotal ({seatNumbers.length} Tickets)</span>
-                <span style={{ color: '#fff' }}>${subtotal.toFixed(2)}</span>
+                <span style={{ color: '#fff' }}>₹{subtotal.toFixed(2)}</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', color: '#94a3b8' }}>
-                <span>Convenience Fee</span>
-                <span style={{ color: '#fff' }}>${convenienceFee.toFixed(2)}</span>
+                <span>Convenience Fee (₹25 / seat)</span>
+                <span style={{ color: '#fff' }}>₹{convenienceFee.toFixed(2)}</span>
               </div>
 
               {discount > 0 && (
                 <div style={{ display: 'flex', justifyContent: 'space-between', color: '#10b981', fontWeight: 600 }}>
                   <span>Discount</span>
-                  <span>-${discount.toFixed(2)}</span>
+                  <span>-₹{discount.toFixed(2)}</span>
                 </div>
               )}
 
@@ -496,7 +496,7 @@ export default function CheckoutPage() {
                 }}
               >
                 <span>Grand Total</span>
-                <span style={{ color: '#e50914' }}>${finalAmount.toFixed(2)}</span>
+                <span style={{ color: '#e50914' }}>₹{finalAmount.toFixed(2)}</span>
               </div>
             </div>
 
@@ -507,7 +507,7 @@ export default function CheckoutPage() {
               className="btn-primary"
               style={{ width: '100%', padding: '0.9rem', fontSize: '1rem', borderRadius: 10, marginTop: '1.5rem' }}
             >
-              {isProcessing ? 'Confirming Reservation...' : `Pay $${finalAmount.toFixed(2)} Now`}
+              {isProcessing ? 'Confirming Reservation...' : `Pay ₹${finalAmount.toFixed(2)} Now`}
             </button>
           </div>
         </div>

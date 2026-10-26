@@ -5,10 +5,10 @@ const CityContext = createContext(null);
 
 export const CityProvider = ({ children }) => {
   const [selectedCity, setSelectedCityState] = useState(() => {
-    return localStorage.getItem('imovies_city') || 'New York';
+    return localStorage.getItem('imovies_city') || 'Bhopal';
   });
 
-  const [cities, setCities] = useState(['New York', 'Los Angeles', 'Chicago']);
+  const [cities, setCities] = useState(['Bhopal', 'Indore', 'Mumbai', 'Delhi', 'Bengaluru']);
 
   useEffect(() => {
     const fetchCities = async () => {

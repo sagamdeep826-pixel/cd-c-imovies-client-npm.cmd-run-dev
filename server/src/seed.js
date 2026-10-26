@@ -17,7 +17,11 @@ export const seedData = async (options = { autoExit: true, skipIfPopulated: fals
     if (options.skipIfPopulated) {
       const movieCount = await Movie.countDocuments();
       if (movieCount > 0) {
-        console.log('[Seed] Database already contains data. Skipping initial seeding.');
+        console.log('[Seed] Database already contains data. Synchronizing Moana 2 display picture...');
+        await Movie.updateOne(
+          { title: /Moana 2/i },
+          { $set: { posterUrl: '/images/moana2.jpg', backdropUrl: '/images/moana2.jpg', featured: true } }
+        );
         return;
       }
     }
@@ -38,99 +42,98 @@ export const seedData = async (options = { autoExit: true, skipIfPopulated: fals
       email: 'admin@imovies.com',
       password: 'Admin@123',
       role: 'admin',
-      phone: '+1 212-555-0199',
-      preferredCity: 'New York',
+      phone: '+91 98260 55001',
+      preferredCity: 'Bhopal',
     });
 
     const user = await User.create({
-      name: 'Alex Miller',
+      name: 'Rahul Sharma',
       email: 'user@imovies.com',
       password: 'User@123',
       role: 'user',
-      phone: '+1 212-555-0144',
-      preferredCity: 'New York',
+      phone: '+91 98260 55002',
+      preferredCity: 'Bhopal',
     });
 
-    console.log('[Seed] Creating Theatres across multiple cities...');
+    console.log('[Seed] Creating Theatres in Bhopal, India...');
     const theatres = await Theatre.create([
       {
-        name: 'IMovies Grand Cinema & IMAX',
-        city: 'New York',
-        address: '1500 Broadway, Times Square',
-        state: 'NY',
-        zipCode: '10036',
+        name: 'Cinepolis: DB City Mall',
+        city: 'Bhopal',
+        address: '4th Floor, DB City Mall, MP Nagar Zone 1',
+        state: 'Madhya Pradesh',
+        zipCode: '462011',
         screens: [
-          { name: 'Screen 1 (IMAX 3D Laser)', screenType: 'IMAX 3D', totalSeats: 80 },
-          { name: 'Screen 2 (Dolby Atmos VIP)', screenType: 'Dolby Atmos VIP', totalSeats: 80 },
+          { name: 'Screen 1 (VIP Recliners & Dolby Atmos)', screenType: 'Dolby Atmos VIP', totalSeats: 80 },
+          { name: 'Screen 2 (IMAX 3D Laser)', screenType: 'IMAX 3D', totalSeats: 80 },
           { name: 'Screen 3 (4DX Dynamic)', screenType: '4DX', totalSeats: 80 },
         ],
-        amenities: ['IMAX Laser', 'Dolby Atmos', 'Reclining Leather Seats', 'Gourmet Dine-in', 'Valet Parking'],
-        contactNumber: '+1 212-555-7890',
+        amenities: ['Dolby Atmos', 'VIP Recliners', 'Food Court', 'Coffee Lounge', 'Valet Parking'],
+        contactNumber: '+91 755 664 4000',
       },
       {
-        name: 'IMovies Starlight Multiplex',
-        city: 'New York',
-        address: '230 Vesey St, Battery Park City',
-        state: 'NY',
-        zipCode: '10281',
+        name: 'PVR: Aura Mall',
+        city: 'Bhopal',
+        address: '3rd Floor, Aura Mall, Gulmohar Colony, E-8 Arera Colony',
+        state: 'Madhya Pradesh',
+        zipCode: '462039',
         screens: [
-          { name: 'Screen 1 (Dolby Atmos VIP)', screenType: 'Dolby Atmos VIP', totalSeats: 80 },
+          { name: 'Screen 1 (PVR P[XL] Dolby Atmos)', screenType: 'Dolby Atmos VIP', totalSeats: 80 },
           { name: 'Screen 2 (Standard Digital)', screenType: 'Standard', totalSeats: 80 },
         ],
-        amenities: ['Dolby Atmos', 'Cocktail Lounge', 'Wheelchair Accessible'],
-        contactNumber: '+1 212-555-3456',
+        amenities: ['Dolby Atmos 7.1', 'Gourmet Popcorn Bar', 'Wheelchair Accessible', 'Parking'],
+        contactNumber: '+91 755 422 1234',
       },
       {
-        name: 'IMovies Sunset Boulevard Pavilion',
-        city: 'Los Angeles',
-        address: '6801 Hollywood Blvd, Hollywood',
-        state: 'CA',
-        zipCode: '90028',
+        name: 'INOX: Aashima Mall',
+        city: 'Bhopal',
+        address: 'Aashima Anupama Mall, Hoshangabad Rd, Bawadiya Kalan',
+        state: 'Madhya Pradesh',
+        zipCode: '462026',
         screens: [
-          { name: 'Screen 1 (IMAX 3D)', screenType: 'IMAX 3D', totalSeats: 80 },
-          { name: 'Screen 2 (Dolby Atmos VIP)', screenType: 'Dolby Atmos VIP', totalSeats: 80 },
-        ],
-        amenities: ['IMAX 70mm', 'Dolby Vision', 'Rooftop Lounge', 'Reserved Parking'],
-        contactNumber: '+1 323-555-8900',
-      },
-      {
-        name: 'IMovies Millennium Park Cinema',
-        city: 'Chicago',
-        address: '201 E Randolph St',
-        state: 'IL',
-        zipCode: '60602',
-        screens: [
-          { name: 'Screen 1 (IMAX 3D)', screenType: 'IMAX 3D', totalSeats: 80 },
+          { name: 'Screen 1 (Insignia VIP Lounge)', screenType: 'Dolby Atmos VIP', totalSeats: 80 },
           { name: 'Screen 2 (Standard Digital)', screenType: 'Standard', totalSeats: 80 },
         ],
-        amenities: ['Dolby Atmos', 'Food Court', 'Arcade Lounge'],
-        contactNumber: '+1 312-555-1212',
+        amenities: ['Insignia Luxury Seats', 'Dolby 7.1 Surround', 'Live Kitchen Dine-In'],
+        contactNumber: '+91 755 409 5000',
       },
       {
-        name: 'IMovies Golden Gate Cinema & Dine-In',
-        city: 'San Francisco',
-        address: '1000 Van Ness Ave',
-        state: 'CA',
-        zipCode: '94109',
+        name: 'DDX Cinemas: People’s Mall',
+        city: 'Bhopal',
+        address: 'People’s World Complex, Berasia Road, Karond',
+        state: 'Madhya Pradesh',
+        zipCode: '462037',
+        screens: [
+          { name: 'Screen 1 (Mega Screen 3D)', screenType: 'IMAX 3D', totalSeats: 80 },
+          { name: 'Screen 2 (Standard Digital)', screenType: 'Standard', totalSeats: 80 },
+        ],
+        amenities: ['Mega Screen 3D', 'Amusement Park Access', 'Spacious Parking'],
+        contactNumber: '+91 755 400 5555',
+      },
+      {
+        name: 'Jyoti Cineplex',
+        city: 'Bhopal',
+        address: 'Near Chetak Bridge, MP Nagar Zone 1',
+        state: 'Madhya Pradesh',
+        zipCode: '462011',
+        screens: [
+          { name: 'Screen 1 (Dolby Digital)', screenType: 'Standard', totalSeats: 80 },
+        ],
+        amenities: ['Centrally Air-Conditioned', 'Snack Bar', 'Budget Friendly'],
+        contactNumber: '+91 755 255 1290',
+      },
+      {
+        name: 'PVR: Phoenix Citadel',
+        city: 'Indore',
+        address: 'Phoenix Citadel Mall, MR 10 Road, Jhalaria',
+        state: 'Madhya Pradesh',
+        zipCode: '452016',
         screens: [
           { name: 'Screen 1 (IMAX 3D Laser)', screenType: 'IMAX 3D', totalSeats: 80 },
           { name: 'Screen 2 (Dolby Atmos VIP)', screenType: 'Dolby Atmos VIP', totalSeats: 80 },
         ],
-        amenities: ['Dolby Atmos', 'Gourmet Dine-In', 'Reclining Heated Seats', 'Valet Parking'],
-        contactNumber: '+1 415-555-4321',
-      },
-      {
-        name: 'IMovies Ocean Drive Cinema',
-        city: 'Miami',
-        address: '1100 Lincoln Rd, South Beach',
-        state: 'FL',
-        zipCode: '33139',
-        screens: [
-          { name: 'Screen 1 (4DX Dynamic)', screenType: '4DX', totalSeats: 80 },
-          { name: 'Screen 2 (Dolby Atmos VIP)', screenType: 'Dolby Atmos VIP', totalSeats: 80 },
-        ],
-        amenities: ['4DX Dynamic Seats', 'Outdoor Rooftop Terrace', 'VIP Cocktail Bar'],
-        contactNumber: '+1 305-555-7766',
+        amenities: ['IMAX Laser', 'Dolby Atmos', 'Reclining Seats', 'Valet Parking'],
+        contactNumber: '+91 731 668 8900',
       },
     ]);
 
@@ -431,15 +434,15 @@ export const seedData = async (options = { autoExit: true, skipIfPopulated: fals
         language: 'English',
         duration: 100,
         releaseDate: new Date('2024-11-27'),
-        rating: 8.5,
+        rating: 8.8,
         votesCount: 2200,
         ageRating: 'PG',
         director: 'David G. Derrick Jr.',
-        posterUrl: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=600&auto=format&fit=crop&q=80',
-        backdropUrl: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=1400&auto=format&fit=crop&q=80',
+        posterUrl: '/images/moana2.jpg',
+        backdropUrl: '/images/moana2.jpg',
         trailerUrl: 'https://www.youtube.com/watch?v=hDZ7y8RP5HE',
         status: 'now_showing',
-        featured: false,
+        featured: true,
         cast: [
           { name: 'Auliʻi Cravalho', character: 'Moana' },
           { name: 'Dwayne Johnson', character: 'Maui' },
@@ -499,7 +502,7 @@ export const seedData = async (options = { autoExit: true, skipIfPopulated: fals
               screenName: theatre.screens[0]?.name || 'Audi 1 (IMAX 3D Laser)',
               showTime,
               endTime,
-              priceTier: { standard: 14, premium: 20, vip: 28 },
+              priceTier: { standard: 150, premium: 220, vip: 320 },
               totalSeats: 80,
               availableSeatsCount: 80,
               status: 'scheduled',
@@ -526,9 +529,9 @@ export const seedData = async (options = { autoExit: true, skipIfPopulated: fals
       });
 
       if (seatsToBook.length === 2) {
-        const subtotal = seatsToBook.reduce((s, c) => s + c.price, 0);
-        const convenienceFee = 5.0;
-        const totalAmount = subtotal + convenienceFee;
+        const subtotal = seatsToBook.reduce((s, c) => s + c.price, 0); // 220 + 220 = 440
+        const convenienceFee = 50.0; // ₹25 per seat
+        const totalAmount = subtotal + convenienceFee; // ₹490
 
         const booking = await Booking.create({
           bookingNumber: 'IMO-948102-1049',
@@ -572,17 +575,18 @@ export const seedData = async (options = { autoExit: true, skipIfPopulated: fals
         await Payment.create({
           booking: booking._id,
           user: user._id,
-          paymentMethod: 'card',
+          paymentMethod: 'upi',
           transactionId: 'TXN-998234-DEMO',
           amount: totalAmount,
+          currency: 'INR',
           status: 'success',
-          cardLastFour: '4242',
+          upiId: 'rahul@okhdfcbank',
         });
 
         await Notification.create({
           user: user._id,
-          title: 'Welcome to IMovies!',
-          message: `Your booking #${booking.bookingNumber} for ${sampleShow.movie.title} is confirmed. Enjoy your show!`,
+          title: 'Welcome to IMovies Bhopal!',
+          message: `Your booking #${booking.bookingNumber} for ${sampleShow.movie.title} at ${sampleShow.theatre.name} is confirmed. Seats: D5, D6. Total Paid: ₹${totalAmount}. Enjoy your show!`,
           type: 'booking_confirmation',
           data: { bookingId: booking._id, showId: sampleShow._id },
         });
@@ -613,6 +617,11 @@ export const seedData = async (options = { autoExit: true, skipIfPopulated: fals
   }
 };
 
-if (import.meta.url === `file:///${process.argv[1].replace(/\\/g, '/')}`) {
+const isDirectRun = process.argv[1] && (
+  import.meta.url === `file:///${process.argv[1].replace(/\\/g, '/')}` ||
+  import.meta.url.endsWith(process.argv[1].replace(/\\/g, '/'))
+);
+
+if (isDirectRun) {
   connectDB().then(() => seedData({ autoExit: true, skipIfPopulated: false }));
 }

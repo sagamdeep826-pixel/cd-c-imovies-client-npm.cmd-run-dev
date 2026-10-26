@@ -50,7 +50,7 @@ export default function Footer() {
               Customer Support
             </h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.85rem', color: '#94a3b8' }}>
-              <li>24/7 Helpline: +1 (800) 555-FILM</li>
+              <li>24/7 Helpline: +91 (755) 400-FILM</li>
               <li>Support: support@imovies.com</li>
               <li>Cancellation & Refund Terms</li>
               <li>Safety & Security Protocol</li>

@@ -60,17 +60,17 @@ export default function AdminDashboardPage() {
     theatreId: '',
     screenName: 'Screen 1 (IMAX 3D)',
     showTime: '',
-    priceTier: { standard: 14, premium: 20, vip: 28 },
+    priceTier: { standard: 150, premium: 220, vip: 320 },
   });
 
   // Add Theatre Modal state
   const [showTheatreModal, setShowTheatreModal] = useState(false);
   const [theatreForm, setTheatreForm] = useState({
     name: '',
-    city: 'New York',
+    city: 'Bhopal',
     address: '',
     amenities: 'IMAX Laser, Dolby Atmos, Dine-In',
-    contactNumber: '+1 212-555-0100',
+    contactNumber: '+91 755 400 1234',
   });
 
   // Check Admin permission
@@ -313,7 +313,7 @@ export default function AdminDashboardPage() {
                     </div>
                   </div>
                   <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#fff' }}>
-                    ${stats?.stats?.totalRevenue ? stats.stats.totalRevenue.toLocaleString() : '0'}
+                    ₹{stats?.stats?.totalRevenue ? stats.stats.totalRevenue.toLocaleString() : '0'}
                   </div>
                   <div style={{ color: '#10b981', fontSize: '0.78rem', marginTop: 4, display: 'flex', alignItems: 'center', gap: 4 }}>
                     <TrendingUp size={13} /> Active live ticketing volume
@@ -394,7 +394,7 @@ export default function AdminDashboardPage() {
                           <td style={{ padding: '0.75rem', color: '#fbbf24', fontWeight: 600 }}>
                             {b.seats?.map((s) => s.seatNumber).join(', ')}
                           </td>
-                          <td style={{ padding: '0.75rem', fontWeight: 700, color: '#10b981' }}>${b.totalAmount}</td>
+                          <td style={{ padding: '0.75rem', fontWeight: 700, color: '#10b981' }}>₹{b.totalAmount}</td>
                           <td style={{ padding: '0.75rem' }}>
                             <span
                               style={{
@@ -527,7 +527,7 @@ export default function AdminDashboardPage() {
                       theatreId: theatres[0]?._id || '',
                       screenName: 'Screen 1 (IMAX 3D)',
                       showTime: new Date(Date.now() + 3600000).toISOString().slice(0, 16),
-                      priceTier: { standard: 14, premium: 20, vip: 28 },
+                      priceTier: { standard: 150, premium: 220, vip: 320 },
                     });
                     setShowScheduleModal(true);
                   }}
@@ -644,7 +644,7 @@ export default function AdminDashboardPage() {
                         <td style={{ padding: '0.75rem', color: '#fbbf24' }}>
                           {b.seats?.map((s) => s.seatNumber).join(', ')}
                         </td>
-                        <td style={{ padding: '0.75rem', fontWeight: 700, color: '#10b981' }}>${b.totalAmount}</td>
+                        <td style={{ padding: '0.75rem', fontWeight: 700, color: '#10b981' }}>₹{b.totalAmount}</td>
                         <td style={{ padding: '0.75rem' }}>
                           <span style={{ background: b.status === 'confirmed' ? '#10b981' : '#ef4444', color: '#000', padding: '0.15rem 0.5rem', borderRadius: 4, fontSize: '0.72rem', fontWeight: 700 }}>
                             {b.status}

@@ -86,7 +86,11 @@ const PORT = process.env.PORT || 5000;
 const startServer = async () => {
   try {
     await connectDB();
-    await seedData({ autoExit: false, skipIfPopulated: true });
+    if (dbStatus.connected) {
+      await seedData({ autoExit: false, skipIfPopulated: true });
+    } else {
+      console.log('ℹ️ [IMovies Server] Running in mock/demo fallback mode without live MongoDB.');
+    }
 
     server.listen(PORT, () => {
       console.log(`🎬 [IMovies Server] Running on http://localhost:${PORT}`);

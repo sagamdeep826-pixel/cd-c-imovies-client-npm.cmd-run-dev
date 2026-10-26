@@ -201,7 +201,7 @@ export default function SeatSelectionPage({ onOpenAuth }) {
   }, [seats, selectedSeatNumbers]);
 
   const subtotal = selectedSeats.reduce((acc, curr) => acc + curr.price, 0);
-  const convenienceFee = selectedSeats.length * 2.5;
+  const convenienceFee = selectedSeats.length * 25;
   const grandTotal = subtotal + convenienceFee;
 
   const formatTimer = (secs) => {
@@ -372,7 +372,7 @@ export default function SeatSelectionPage({ onOpenAuth }) {
                           disabled={isBooked || isLockedByOther}
                           className={seatClass}
                           onClick={() => handleSeatClick(seat)}
-                          title={`${seat.seatNumber} (${seat.category.toUpperCase()}) - $${seat.price}`}
+                          title={`${seat.seatNumber} (${seat.category.toUpperCase()}) - ₹${seat.price}`}
                         >
                           {isLockedByOther ? <Lock size={12} /> : seat.col}
                         </button>
@@ -405,15 +405,15 @@ export default function SeatSelectionPage({ onOpenAuth }) {
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <div className="seat-btn seat-available-standard" style={{ width: 20, height: 20, fontSize: 9 }}>S</div>
-              <span>Standard (${show.priceTier?.standard || 14})</span>
+              <span>Standard (₹{show.priceTier?.standard || 150})</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <div className="seat-btn seat-available-premium" style={{ width: 20, height: 20, fontSize: 9 }}>P</div>
-              <span>Premium (${show.priceTier?.premium || 20})</span>
+              <span>Premium (₹{show.priceTier?.premium || 220})</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <div className="seat-btn seat-available-vip" style={{ width: 20, height: 20, fontSize: 9 }}>V</div>
-              <span>VIP Recliner (${show.priceTier?.vip || 28})</span>
+              <span>VIP Recliner (₹{show.priceTier?.vip || 320})</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <div className="seat-btn seat-selected" style={{ width: 20, height: 20 }} />
@@ -464,7 +464,7 @@ export default function SeatSelectionPage({ onOpenAuth }) {
                         borderRadius: 6,
                       }}
                     >
-                      {s.seatNumber} (${s.price})
+                      {s.seatNumber} (₹{s.price})
                     </span>
                   ))}
                 </div>
@@ -474,11 +474,11 @@ export default function SeatSelectionPage({ onOpenAuth }) {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8, borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '1rem', marginBottom: '1.25rem', fontSize: '0.88rem' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', color: '#94a3b8' }}>
                   <span>Tickets Subtotal</span>
-                  <span style={{ color: '#fff', fontWeight: 600 }}>${subtotal.toFixed(2)}</span>
+                  <span style={{ color: '#fff', fontWeight: 600 }}>₹{subtotal.toFixed(2)}</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', color: '#94a3b8' }}>
-                  <span>Convenience Fee ($2.50 / seat)</span>
-                  <span style={{ color: '#fff', fontWeight: 600 }}>${convenienceFee.toFixed(2)}</span>
+                  <span>Convenience Fee (₹25 / seat)</span>
+                  <span style={{ color: '#fff', fontWeight: 600 }}>₹{convenienceFee.toFixed(2)}</span>
                 </div>
                 <div
                   style={{
@@ -492,7 +492,7 @@ export default function SeatSelectionPage({ onOpenAuth }) {
                   }}
                 >
                   <span>Total Amount</span>
-                  <span style={{ color: '#e50914' }}>${grandTotal.toFixed(2)}</span>
+                  <span style={{ color: '#e50914' }}>₹{grandTotal.toFixed(2)}</span>
                 </div>
               </div>
 
