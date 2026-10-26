@@ -27,9 +27,9 @@ const showSchema = new mongoose.Schema(
       type: Date,
     },
     priceTier: {
-      standard: { type: Number, default: 12 },
-      premium: { type: Number, default: 18 },
-      vip: { type: Number, default: 25 },
+      standard: { type: Number, default: 150 },
+      premium: { type: Number, default: 220 },
+      vip: { type: Number, default: 320 },
     },
     status: {
       type: String,

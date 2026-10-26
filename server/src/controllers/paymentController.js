@@ -23,7 +23,7 @@ export const processPayment = async (req, res, next) => {
       paymentMethod,
       transactionId,
       amount: booking.totalAmount,
-      currency: 'USD',
+      currency: 'INR',
       status: 'success',
       cardLastFour: cardDetails?.cardNumber ? cardDetails.cardNumber.slice(-4) : '4242',
       cardBrand: cardDetails?.brand || 'Visa',

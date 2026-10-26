@@ -47,7 +47,7 @@ export const createBooking = async (req, res, next) => {
 
     // Calculate amounts
     const subtotal = seats.reduce((acc, curr) => acc + curr.price, 0);
-    const convenienceFee = 2.5 * seats.length;
+    const convenienceFee = 25 * seats.length;
     let discount = 0;
 
     const normalizedCoupon = (couponCode || '').toUpperCase().trim();
@@ -55,8 +55,8 @@ export const createBooking = async (req, res, next) => {
       discount = Math.round(subtotal * 0.2); // 20% off
     } else if (normalizedCoupon === 'FIRST50') {
       discount = Math.round(subtotal * 0.5); // 50% off
-    } else if (normalizedCoupon === 'FLAT10') {
-      discount = Math.min(10, subtotal);
+    } else if (normalizedCoupon === 'FLAT100' || normalizedCoupon === 'FLAT10') {
+      discount = Math.min(100, subtotal);
     }
 
     const totalAmount = Math.max(0, subtotal + convenienceFee - discount);
@@ -120,7 +120,7 @@ export const createBooking = async (req, res, next) => {
       paymentMethod,
       transactionId,
       amount: totalAmount,
-      currency: 'USD',
+      currency: 'INR',
       status: 'success',
       cardLastFour: paymentDetails.cardLastFour || '4242',
       cardBrand: paymentDetails.cardBrand || 'Visa',
@@ -258,7 +258,7 @@ export const cancelBooking = async (req, res, next) => {
       paymentMethod: 'wallet',
       transactionId: refundTxnId,
       amount: refundAmount,
-      currency: 'USD',
+      currency: 'INR',
       status: 'refunded',
     });
 
@@ -266,7 +266,7 @@ export const cancelBooking = async (req, res, next) => {
     await Notification.create({
       user: booking.user,
       title: 'Booking Cancelled & Refund Initiated',
-      message: `Your booking #${booking.bookingNumber} for ${booking.movie.title} has been cancelled. Refund of $${refundAmount} has been credited.`,
+      message: `Your booking #${booking.bookingNumber} for ${booking.movie.title} has been cancelled. Refund of ₹${refundAmount} has been credited.`,
       type: 'cancellation',
       data: { bookingId: booking._id },
     });

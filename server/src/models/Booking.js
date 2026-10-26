@@ -52,7 +52,7 @@ const bookingSchema = new mongoose.Schema(
     },
     convenienceFee: {
       type: Number,
-      default: 2.5,
+      default: 25,
     },
     discount: {
       type: Number,

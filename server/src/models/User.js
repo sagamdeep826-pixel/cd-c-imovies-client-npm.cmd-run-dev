@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema(
     },
     preferredCity: {
       type: String,
-      default: 'New York',
+      default: 'Bhopal',
     },
   },
   {

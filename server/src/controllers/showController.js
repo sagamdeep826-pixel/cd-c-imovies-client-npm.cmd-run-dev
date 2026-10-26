@@ -4,19 +4,19 @@ import Theatre from '../models/Theatre.js';
 import Seat from '../models/Seat.js';
 
 // Helper to generate seat grid for a show
-export const generateSeatsForShow = async (showId, priceTier = { standard: 12, premium: 18, vip: 25 }) => {
+export const generateSeatsForShow = async (showId, priceTier = { standard: 150, premium: 220, vip: 320 }) => {
   const existingSeats = await Seat.countDocuments({ show: showId });
   if (existingSeats > 0) return;
 
   const rowsConfig = [
-    { row: 'A', category: 'standard', price: priceTier.standard || 12 },
-    { row: 'B', category: 'standard', price: priceTier.standard || 12 },
-    { row: 'C', category: 'standard', price: priceTier.standard || 12 },
-    { row: 'D', category: 'premium', price: priceTier.premium || 18 },
-    { row: 'E', category: 'premium', price: priceTier.premium || 18 },
-    { row: 'F', category: 'premium', price: priceTier.premium || 18 },
-    { row: 'G', category: 'vip', price: priceTier.vip || 25 },
-    { row: 'H', category: 'vip', price: priceTier.vip || 25 },
+    { row: 'A', category: 'standard', price: priceTier.standard || 150 },
+    { row: 'B', category: 'standard', price: priceTier.standard || 150 },
+    { row: 'C', category: 'standard', price: priceTier.standard || 150 },
+    { row: 'D', category: 'premium', price: priceTier.premium || 220 },
+    { row: 'E', category: 'premium', price: priceTier.premium || 220 },
+    { row: 'F', category: 'premium', price: priceTier.premium || 220 },
+    { row: 'G', category: 'vip', price: priceTier.vip || 320 },
+    { row: 'H', category: 'vip', price: priceTier.vip || 320 },
   ];
 
   const seatsToInsert = [];
@@ -157,7 +157,7 @@ export const createShow = async (req, res, next) => {
       screenName: screenName || 'Screen 1 (IMAX)',
       showTime: startTime,
       endTime,
-      priceTier: priceTier || { standard: 12, premium: 18, vip: 25 },
+      priceTier: priceTier || { standard: 150, premium: 220, vip: 320 },
       totalSeats: 80,
       availableSeatsCount: 80,
     });
